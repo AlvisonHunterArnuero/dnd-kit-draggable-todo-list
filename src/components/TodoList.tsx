@@ -127,6 +127,7 @@ export const TodoList = () => {
             <SortableItem
               key={id}
               id={id}
+              completed={completed}
               onDelete={handleDeleteTodo}
             >
               <input
@@ -136,7 +137,7 @@ export const TodoList = () => {
                 onChange={handleCheckbox}
                 className="mr-2"
               />
-              <span className={`${completed ? "line-through text-sky-200": "text-green-400"}`}>{text}</span>
+              {text}
             </SortableItem>
           ))}
         </SortableContext>
