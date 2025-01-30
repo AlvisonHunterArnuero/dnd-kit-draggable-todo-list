@@ -42,10 +42,23 @@ export const TodoList = () => {
       const newTodo: Todo = {
         id: `todo-${uuidv4()}`,
         text: inputValue.trim(),
+        completed: false,
       };
       setTodos([...todos, newTodo]);
       setInputValue('');
     }
+  };
+
+  const handleCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const id = e.target?.id.slice(4);
+    setTodos((todos) =>
+      todos.map((todo) =>
+        todo.id === id
+          ? { ...todo, completed: !todo.completed }
+          : todo
+      )
+    );
+    localStorage.setItem('todos', JSON.stringify(todos));
   };
 
   const handleDeleteTodo = (id: string) => {
@@ -67,8 +80,15 @@ export const TodoList = () => {
     }
   };
 
+  // it took me a while to figure out why the pointer sensor wasn't working
+  // it turns out that the activation constraints param is required
+  // to make it work with the delete button on the SortableItem component
   const sensors = useSensors(
-    useSensor(PointerSensor),
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })
@@ -79,6 +99,7 @@ export const TodoList = () => {
       <h1 className="text-2xl font-bold mb-4">Todo List</h1>
       <div className="flex mb-4">
         <input
+          id="todo-input"
           type="text"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
@@ -102,13 +123,20 @@ export const TodoList = () => {
           items={todos}
           strategy={verticalListSortingStrategy}
         >
-          {todos.map(({ id, text }) => (
+          {todos.map(({ id, text, completed }) => (
             <SortableItem
               key={id}
               id={id}
               onDelete={handleDeleteTodo}
             >
-              {text}
+              <input
+                id={`chk-${id}`}
+                type="checkbox"
+                defaultChecked={completed}
+                onChange={handleCheckbox}
+                className="mr-2"
+              />
+              <span className={`${completed ? "line-through text-sky-200": "text-green-400"}`}>{text}</span>
             </SortableItem>
           ))}
         </SortableContext>
