@@ -1,4 +1,4 @@
-'use client'; // Required for client-side interactivity
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import {
@@ -16,6 +16,7 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
+import { v4 as uuidv4 } from 'uuid';
 import { SortableItem } from '../components/SortableItem';
 import { Todo } from '@/Types';
 
@@ -39,7 +40,7 @@ export const TodoList = () => {
   const handleAddTodo = () => {
     if (inputValue.trim()) {
       const newTodo: Todo = {
-        id: `todo-${Date.now()}`,
+        id: `todo-${uuidv4()}`,
         text: inputValue.trim(),
       };
       setTodos([...todos, newTodo]);
@@ -105,7 +106,7 @@ export const TodoList = () => {
             <SortableItem
               key={id}
               id={id}
-              onDelete={() => handleDeleteTodo(id)}
+              onDelete={handleDeleteTodo}
             >
               {text}
             </SortableItem>
