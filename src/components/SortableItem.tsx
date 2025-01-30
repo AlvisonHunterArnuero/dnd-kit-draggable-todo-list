@@ -9,6 +9,7 @@ export const SortableItem = ({
   id,
   children,
   onDelete,
+  completed,
 }: SortableItemProps) => {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id });
@@ -24,21 +25,32 @@ export const SortableItem = ({
   };
 
   return (
-    <div
-      ref={setNodeRef}
-      style={style}
-      {...attributes}
-      {...listeners}
-      className="flex justify-between items-center p-2 mb-2 bg-gray-900 border border-gray-300 rounded shadow-sm cursor-move"
-    >
-      <span className="capitalize text-gray-400">{children}</span>
-      <button
-        type="button"
-        onClick={() => handleDeleteClick}
-        className="text-red-500 hover:text-yellow-400 text-sm mr-3 font-bold uppercase"
+    <>
+      <div
+        ref={setNodeRef}
+        style={style}
+        {...attributes}
+        {...listeners}
+        data-no-dnd="true"
+        className="flex justify-between items-center p-2 mb-2 bg-gray-900 border border-gray-300 rounded shadow-sm cursor-move"
       >
-        Delete
-      </button>
-    </div>
+        <span
+          className={`${
+            completed
+              ? 'line-through text-sky-200 capitalize'
+              : 'text-green-400 capitalize'
+          }`}
+        >
+          {children}
+        </span>
+        <button
+          type="button"
+          onClick={handleDeleteClick}
+          className="text-red-500 hover:text-yellow-400 text-sm mr-3 font-bold uppercase pointer-events-auto"
+        >
+          Delete
+        </button>
+      </div>
+    </>
   );
 };
