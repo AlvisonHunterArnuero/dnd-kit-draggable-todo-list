@@ -8,4 +8,5 @@ export interface SortableItemProps {
   id: string;
   children: React.ReactNode;
   onDelete: (id: string) => void;
+  completed: boolean;
 }
