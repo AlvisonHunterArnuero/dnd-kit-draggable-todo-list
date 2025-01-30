@@ -19,7 +19,6 @@ export const SortableItem = ({
   };
 
   const handleDeleteClick = (e: React.MouseEvent) => {
-    console.log(`Deleting item: ${id}`);
     e.stopPropagation();
     onDelete(id);
   };
@@ -30,14 +29,13 @@ export const SortableItem = ({
       style={style}
       {...attributes}
       {...listeners}
-      className="flex justify-between items-center p-2 mb-2 bg-black border border-gray-300 rounded shadow-sm cursor-move"
+      className="flex justify-between items-center p-2 mb-2 bg-gray-900 border border-gray-300 rounded shadow-sm cursor-move"
     >
-      <span>{children}</span>
+      <span className="capitalize text-gray-400">{children}</span>
       <button
         type="button"
-        onClick={handleDeleteClick}
+        onClick={() => handleDeleteClick}
         className="text-red-500 hover:text-yellow-400 text-sm mr-3 font-bold uppercase"
-        {...(listeners ? {} : attributes)}
       >
         Delete
       </button>
