@@ -80,9 +80,11 @@ export const TodoList = () => {
     }
   };
 
-  // it took me a while to figure out why the pointer sensor wasn't working
-  // it turns out that the activation constraints param is required
-  // to make it work with the delete button on the SortableItem component
+  /* -----------------------------------------------------------------------------------------
+  | It took some time to debug why the pointer sensor wasn’t letting the button inside to    |
+  | to be functioning correctly. The issue was that the activationConstraints parameter      |
+  | is required to ensure proper interaction with the delete button on the SortableItem comp.|
+  ----------------------------------------------------------------------------------------- */
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
